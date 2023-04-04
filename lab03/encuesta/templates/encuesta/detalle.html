@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Encuesta</title>
+    <style>
+      
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #F2F2F2;
+        margin: 0;
+        padding: 0;
+      }
+
+      .formulario {
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        margin: 50px auto;
+        max-width: 600px;
+        padding: 20px;
+      }
+
+      header {
+        background-color: #007bff;
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 36px;
+        font-weight: bold;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        border: 2px solid #ccc;
+        padding: 10px;
+        transition: all 0.3s ease;
+      }
+
+      input[type="radio"] {
+        display: none;
+      }
+
+      input[type="radio"]:checked + label {
+        border-color: #007bff;
+        color: #007bff;
+        font-weight: bold;
+      }
+
+      input[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        font-size: 16px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #0069d9;
+      }
+
+      a {
+        display: inline-block;
+        margin-top: 20px;
+        font-size: 16px;
+        color: #007bff;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="formulario">
+      <header>
+        <h1>{{ pregunta.pregunta_texto }}</h1>
+      </header>
+
+      <main>
+        <form action="{% url 'encuesta:votar' pregunta.id %}" method="post">
+          {% csrf_token %}
+          {% for opcion in pregunta.opcion_set.all %}
+            <input type="radio" name="opcion" id="opcion{{ forloop.counter }}" value="{{ opcion.id}}">
+            <label for="opcion{{forloop.counter }}">{{ opcion.opcion_texto }}</label>
+          {% endfor %}
+          <input type="submit" value="Votar">
+        </form>
+
+        <a href="{% url 'encuesta:index' %}">Ver preguntas</a>
+      </main>
+    </div>
+  </body>
+</html>

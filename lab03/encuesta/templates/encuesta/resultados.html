@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Encuesta</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #F2F2F2;
+        margin: 0;
+        padding: 0;
+      }
+
+      .formulario {
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        margin: 50px auto;
+        max-width: 600px;
+        padding: 20px;
+      }
+
+      header {
+        background-color: #007bff;
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 36px;
+        font-weight: bold;
+      }
+
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      li {
+        background-color: #f2f2f2;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        padding: 10px;
+        transition: all 0.3s ease;
+      }
+
+      li:hover {
+        background-color: #e6e6e6;
+      }
+
+      span {
+        font-weight: bold;
+      }
+
+      .botones {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      button {
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        cursor: pointer;
+        font-size: 16px;
+        padding: 10px;
+        transition: all 0.3s ease;
+        width: 45%;
+      }
+
+      button:hover {
+        opacity: 0.9;
+      }
+
+      .boton-votar {
+        background-color: #007bff;
+      }
+
+      .boton-ver {
+        background-color: #28a745;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="formulario">
+      <header>
+        <h1>{{ pregunta.pregunta_texto }}</h1>
+      </header>
+
+      <main>
+        <ul>
+          {% for opcion in pregunta.opcion_set.all %}
+            <li>{{ opcion.opcion_texto }} -- <span>{{ opcion.votos }} voto{{ opcion.votos|pluralize }}</span></li>
+          {% endfor %}
+        </ul>
+
+        <div class="botones">
+          <button class="boton-votar" onclick="location.href='{% url 'encuesta:detalle' pregunta.id %}'">Votar de nuevo</button>
+          <button class="boton-ver" onclick="location.href='{% url 'encuesta:index' %}'">Ver preguntas</button>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
